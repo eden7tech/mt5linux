@@ -1,0 +1,25 @@
+services:
+  mt5linux:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mt5linux
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      MT5_HOST: ${MT5_HOST:-0.0.0.0}
+#      MT5_LOGIN: ${MT5_LOGIN:-}
+#      MT5_PASSWORD: ${MT5_PASSWORD:-}
+#      MT5_SERVER: ${MT5_SERVER:-}
+      RPYC_PORT: ${RPYC_PORT:-18812}
+      NOVNC_PORT: ${NOVNC_PORT:-5901}
+      NOVNC_PAGE_PORT: ${NOVNC_PAGE_PORT:-8081}
+    ports:
+      - "18080:8081"
+      - "5901:5901"
+      - "18812:18812"
+    volumes:
+      - ../data/wineprefix:/opt/wineprefix
+    shm_size: "1gb"
+    stop_grace_period: 30s
